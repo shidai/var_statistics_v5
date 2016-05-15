@@ -228,7 +228,9 @@ float calculateNDynSpec (acfStruct *acfStructure)
 	}
 	meanVar = meanVar/n;
 	//printf ("%d %f\n", nchan, meanVar/n);
-
+	
+	free(acfStructure->dynPlot);
+				
 	return meanVar;
 }
 
@@ -566,7 +568,7 @@ void deallocateMemory (acfStruct *acfStructure)
 	//	free(acfStructure->dynSpecWindow[i]);
 	//}
 
-	free(acfStructure->dynPlot);
+	//free(acfStructure->dynPlot);
 }
 
 int simNoise (noiseStruct *noiseStructure, long seed)
@@ -700,6 +702,7 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 				dynSpecWindow = temp/tempf;
 				acfStructure->dynPlot[i*nsubint+j] = (float)(dynSpecWindow*acfStructure->cFlux);   // add in noise here
 			}
+			//printf ("%d\n", tempf);
 		}
 	}
 	else

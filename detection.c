@@ -93,13 +93,13 @@ int main (int argc, char* argv[])
 				// simulate dynamic spectra
 				signal = calculateNDynSpec (&acfStructure);
 				noise = calNoise (&noiseStructure, &control);
+				printf ("%d %f %f\n", control.nchan_win, signal, noise);
 				fflush (stdout);
-				printf ("%d %f %f\n", control.nchan, signal, noise);
 				//fprintf (fin, "%lf %lf %lf %f\n", tdiff, fdiff, control.cFlux, acfStructure.probability);
 		
-				deallocateMemory (&acfStructure);
 			}
 		}
+		deallocateMemory (&acfStructure);
 	}
 	//else
 	//{
