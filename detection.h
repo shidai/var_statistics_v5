@@ -240,8 +240,6 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 	//FILE *fin;
 	long seed;
 
-	int nchn, nsubint;
-
 	//printf ("Starting simulating dynamic spectrum\n");
 	// moved to preAllocateMemory
 	acfStructure->n = control->n; 
@@ -514,13 +512,11 @@ int power (acfStruct *acfStructure)
 void allocateMemory (acfStruct *acfStructure)
 {
 	int i;
-	int n; // number of dynamic spectrum
 	int ns, nf;
 
 	double steps = acfStructure->steps;
 	double stepf = acfStructure->stepf;
 
-	n = acfStructure->n;
 	ns = acfStructure->ns;
 	nf = acfStructure->nf;
 	
