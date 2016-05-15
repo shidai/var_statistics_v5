@@ -1,0 +1,1 @@
+mpicc -o detection detection.c T2toolkit.c -Wall -lm -lfftw3  
