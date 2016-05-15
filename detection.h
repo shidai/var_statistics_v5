@@ -260,8 +260,6 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 
 	acfStructure->cFlux = control->cFlux; // mJy
 
-	nchn = acfStructure->nchn;
-	nsubint = acfStructure->nsubint;
 	//printf ("Scintillation bandwidth: %lf (MHz)\n", acfStructure->f0);
 	//printf ("Scintillation time-scale: %lf (s)\n", acfStructure->t0);
 
