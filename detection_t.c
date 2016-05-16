@@ -83,6 +83,7 @@ int main (int argc, char* argv[])
 		printf ("Finished reading parameters.\n");
 
 		calculateScintScale (&acfStructure, &control);
+		printf ("Finished simulating dynamic spectrum.\n");
 		for (i=1; i<=(int)(control.tint); i++)
 		{
 			if ((int)(control.tint)%i == 0)

@@ -695,7 +695,7 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 						temp += acfStructure->dynSpec[i+nf0][j*tempt+ns0+ii];
 				}
 				dynSpecWindow = temp/tempt;
-				acfStructure->dynPlot[i*nsubint+j] = (float)(dynSpecWindow*acfStructure->cFlux);   // add in noise here
+				acfStructure->dynPlot[i*nsubint_win+j] = (float)(dynSpecWindow*acfStructure->cFlux);   // add in noise here
 			}
 			//printf ("%d\n", tempf);
 		}
