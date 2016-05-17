@@ -169,12 +169,16 @@ int calNoise (noiseStruct *noiseStructure, controlStruct *control)
 {
 	long seed;
 	int i;
+	int nsub, nchn;
 
 	noiseStructure->n = control->n; 
 	noiseStructure->npixel = control->npixel; 
-	noiseStructure->whiteLevel = control->whiteLevel; // mJy
 	noiseStructure->nchn = control->nchan; 
 	noiseStructure->nsubint = control->nsub; 
+
+	nchn = control->nchan; 
+	nsub = control->nsub; 
+	noiseStructure->whiteLevel = sqrt(nchn*nsub)*control->whiteLevel; // mJy
 
 	// simulate noise
 	for (i=0; i<noiseStructure->n; i++)
@@ -228,7 +232,7 @@ int calculateNDynSpec (acfStruct *acfStructure, controlStruct *control, noiseStr
 	psrMean = (float*)malloc(sizeof(float)*n);
 
 	acfStructure->cFlux = control->cFlux; // mJy
-	acfStructure->whiteLevel = control->whiteLevel; // mJy
+	acfStructure->whiteLevel = sqrt(nsub*nchan)*control->whiteLevel; // mJy
 
 	for (i=0; i<acfStructure->n; i++)
 	{
