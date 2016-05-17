@@ -228,6 +228,7 @@ int calculateNDynSpec (acfStruct *acfStructure, controlStruct *control, noiseStr
 	psrMean = (float*)malloc(sizeof(float)*n);
 
 	acfStructure->cFlux = control->cFlux; // mJy
+	acfStructure->whiteLevel = control->whiteLevel; // mJy
 
 	for (i=0; i<acfStructure->n; i++)
 	{
@@ -263,7 +264,6 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 	//printf ("Starting simulating dynamic spectrum\n");
 	// moved to preAllocateMemory
 	acfStructure->n = control->n; 
-	acfStructure->whiteLevel = control->whiteLevel; // mJy
 	acfStructure->cFreq = control->cFreq; // MHz
 	acfStructure->bw = fabs(control->chanBW*control->nchan); // MHz
 	acfStructure->f0 = control->scint_freqbw;  // MHz
