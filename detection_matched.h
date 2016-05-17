@@ -167,21 +167,14 @@ void allocateNoise (noiseStruct *noiseStructure, controlStruct *control)
 
 int calNoise (noiseStruct *noiseStructure, controlStruct *control)
 {
-	int nchn, nsubint;
 	long seed;
 	int i;
-	int n, npixel;
 
 	noiseStructure->n = control->n; 
 	noiseStructure->npixel = control->npixel; 
 	noiseStructure->whiteLevel = control->whiteLevel; // mJy
 	noiseStructure->nchn = control->nchan; 
 	noiseStructure->nsubint = control->nsub; 
-
-	n = control->n;
-	npixel = control->npixel;
-	nchn = noiseStructure->nchn;
-	nsubint = noiseStructure->nsubint;
 
 	// simulate noise
 	for (i=0; i<noiseStructure->n; i++)
@@ -228,8 +221,6 @@ int calculateNDynSpec (acfStruct *acfStructure, controlStruct *control, noiseStr
 	int nsub = control->nsub;
 	int nchan = control->nchan;
 
-	int num;
-	
 	float *psrVar;
 	float *psrMean;
 
@@ -238,7 +229,6 @@ int calculateNDynSpec (acfStruct *acfStructure, controlStruct *control, noiseStr
 
 	acfStructure->cFlux = control->cFlux; // mJy
 
-	num = 0;
 	for (i=0; i<acfStructure->n; i++)
 	{
 		seed = TKsetSeed();
@@ -537,13 +527,11 @@ int power (acfStruct *acfStructure)
 void allocateMemory (acfStruct *acfStructure)
 {
 	int i;
-	int n; // number of dynamic spectrum
 	int ns, nf;
 
 	double steps = acfStructure->steps;
 	double stepf = acfStructure->stepf;
 
-	n = acfStructure->n;
 	ns = acfStructure->ns;
 	nf = acfStructure->nf;
 	
