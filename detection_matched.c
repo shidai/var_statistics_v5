@@ -93,12 +93,12 @@ int main (int argc, char* argv[])
 
 		for (i=0; i<nNoise; i++)
 		{
-			control.whiteLevel = noise[i];
+			control.whiteLevel = pow(10.0, noise[i]);
 			calNoise (&noiseStructure, &control);
 					
 			calculateNDynSpec (&acfStructure, &control, &noiseStructure);
 				
-			printf ("%lf %lf %lf\n", noise[i], acfStructure.meanM/sqrt(acfStructure.varM), acfStructure.meanV/sqrt(acfStructure.varV));
+			printf ("%lf %lf %lf\n", control.whiteLevel, acfStructure.meanM/sqrt(acfStructure.varM), acfStructure.meanV/sqrt(acfStructure.varV));
 			fflush (stdout);
 				
 		}
