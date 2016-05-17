@@ -1,5 +1,6 @@
 *.swp
 detection
 detection_t
+detection_matched
 result/
 
