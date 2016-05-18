@@ -70,6 +70,9 @@ typedef struct controlStruct {
 	char dname[1024]; // graphics device
 
 	double cFreq;  // observing central frequency
+	double tint;
+	double bw;
+
 	double tsub;  // subintegration time
 	int nsub;  // number of subintegrations
 	double chanBW;  // subchannel bandwidth
@@ -269,9 +272,9 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 	// moved to preAllocateMemory
 	acfStructure->n = control->n; 
 	acfStructure->cFreq = control->cFreq; // MHz
-	acfStructure->bw = fabs(control->chanBW*control->nchan); // MHz
+	acfStructure->bw = control->bw; // MHz
 	acfStructure->f0 = control->scint_freqbw;  // MHz
-	acfStructure->tint = control->nsub*control->tsub;  // s
+	acfStructure->tint = control->tint;  // s
 	acfStructure->t0 = control->scint_ts; // s
 	acfStructure->nchn = control->nchan;
 	acfStructure->nsubint = control->nsub;
@@ -1051,24 +1054,18 @@ int readParams(char *fname, char *dname, int n, controlStruct *control)
 				fscanf(fin,"%lf",&(control->scint_ts));
 			else if (strcasecmp(param,"SCINT_BW")==0)
 				fscanf(fin,"%lf",&(control->scint_freqbw));	  
-			//else if (strcasecmp(param,"SCINT_FREQBW0")==0)
-			//	fscanf(fin,"%lf",&(control->scint_freqbw0));	  
-			//else if (strcasecmp(param,"SCINT_FREQBW1")==0)
-			//	fscanf(fin,"%lf",&(control->scint_freqbw1));	  
-			//else if (strcasecmp(param,"SCINT_F_STEP")==0)
-			//	fscanf(fin,"%lf",&(control->scint_f_step));	  
-			//if (strcasecmp(param,"TSUB")==0)
-      			//	fscanf(fin,"%lf",&(control->tsub));
 			else if (strcasecmp(param,"CFREQ")==0)
       				fscanf(fin,"%lf",&(control->cFreq));
-			else if (strcasecmp(param,"CHAN_BW")==0)
-      				fscanf(fin,"%lf",&(control->chanBW));
+			else if (strcasecmp(param,"T")==0)
+      				fscanf(fin,"%lf",&(control->tint));
+			else if (strcasecmp(param,"BW")==0)
+      				fscanf(fin,"%lf",&(control->bw));
+			//else if (strcasecmp(param,"CHAN_BW")==0)
+      			//	fscanf(fin,"%lf",&(control->chanBW));
 			else if (strcasecmp(param,"NCHAN")==0)
 			      	fscanf(fin,"%d",&(control->nchan));
 			else if (strcasecmp(param,"NSUB")==0)
       				fscanf(fin,"%d",&(control->nsub));
-			//else if (strcasecmp(param,"WHITE_LEVEL")==0)
-      			//	fscanf(fin,"%lf",&(control->whiteLevel));
 			else if (strcasecmp(param,"CFLUX")==0)
 			      	fscanf(fin,"%lf",&(control->cFlux));
 			else if (strcasecmp(param,"WINSIZE")==0)
@@ -1078,21 +1075,8 @@ int readParams(char *fname, char *dname, int n, controlStruct *control)
 		}
 	} while (endit==0);
 
-	//////////////////////////////////////////////////////////////////////
-	//if (control->tsys != 0.0 && control->tsky != 0.0 && control->gain != 0.0 && control->whiteLevel == 0)
-	//{
-	//	control->radioNoise = (control->tsys+control->tsky)/(control->gain)/sqrt(2.0*(control->tsubRequested/control->nbin)*(fabs(control->obsBW)/control->nchan));
-	//}
-	//else if (control->tsys == 0.0 && control->tsky == 0.0 && control->gain == 0.0 && control->whiteLevel != 0)
-	//{
-	//	control->radioNoise = control->whiteLevel;
-	//}
-	//else 
-	//{
-	//	printf ("Double definiation of radio-meter noise!\n");
-	//	exit (1);
-	//}
-	//printf ("Nchan: %d; Tsys: %lf; Tsky: %lf; Gain: %lf; Radio-meter noise: %lf mJy\n", control->nchan, control->tsys, control->tsky, control->gain, control->radioNoise);
+	control->chanBW = control->bw/control->nchan;
+	control->tsub = control->tint/control->nsub;
 
 	if (fclose(fin))
 	{
@@ -1110,7 +1094,6 @@ void initialiseControl(controlStruct *control)
 	//strcpy(control->src,"UNKNOWN");
 	//strcpy(control->oname,"UNKNOWN");
 	strcpy(control->dname,"1/xs");
-	control->tsub = 0;
 	
 	control->n = 1; // simulate 1 dynamic spectrum by default
 	control->npixel = 10; // simulate 1 dynamic spectrum by default
@@ -1119,8 +1102,10 @@ void initialiseControl(controlStruct *control)
 	control->nchan = 100;
 	control->nsub = 100;
 	control->cFreq = 1400.0;
-	control->chanBW = 1;   // MHz
-	control->tsub = 1;  // second
+	control->chanBW = 1.0;   // MHz
+	control->tsub = 1.0;  // second
+	control->tint = 100.0;   // MHz
+	control->bw = 100.0;  // second
 
 	control->whiteLevel = 0.1;   // mJy
 
