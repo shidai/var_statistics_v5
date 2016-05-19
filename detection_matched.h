@@ -254,6 +254,9 @@ int calculateNDynSpec (acfStruct *acfStructure, controlStruct *control, noiseStr
 	acfStructure->meanV = mean (psrVar, n);
 	acfStructure->varV = variance (psrVar, n);
 
+	printf ("%lf %lf %lf %lf %lf\n", control->whiteLevel, acfStructure->meanM, sqrt(acfStructure->varM), acfStructure->meanV, sqrt(acfStructure->varV));
+	fflush (stdout);
+
 	free(psrVar);
 	free(psrMean);
 

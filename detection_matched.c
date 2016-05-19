@@ -98,12 +98,11 @@ int main (int argc, char* argv[])
 					
 			calculateNDynSpec (&acfStructure, &control, &noiseStructure);
 				
-			printf ("%lf %lf %lf\n", control.whiteLevel, acfStructure.meanM/sqrt(acfStructure.varM), acfStructure.meanV/sqrt(acfStructure.varV));
-			fflush (stdout);
-				
+			//printf ("%lf %lf %lf\n", control.whiteLevel, acfStructure.meanM/sqrt(acfStructure.varM), acfStructure.meanV/sqrt(acfStructure.varV));
+			//fflush (stdout);
 		}
-		deallocateMemory (&acfStructure);
 		deallocateNoise (&noiseStructure);
+		deallocateMemory (&acfStructure);
 	}
 	//else
 	//{
