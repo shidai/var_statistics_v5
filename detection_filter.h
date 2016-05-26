@@ -719,11 +719,18 @@ int subband_filter (acfStruct *acfStructure)
 	int j;
 	//printf ("seed %ld\n",seed);
 
-	for (i = 0; i < nchn_win-1; i++)
+	for (i = 0; i < nchn_win; i++)
 	{
 		for (j = 0; j < nsubint; j++)
 		{
-			acfStructure->dynPlot[i*nsubint+j] = acfStructure->dynPlot[i*nsubint+j] - acfStructure->dynPlot[(i+1)*nsubint+j];   // add in noise here
+			if (i != nchn_win-1)
+			{
+				acfStructure->dynPlot[i*nsubint+j] = acfStructure->dynPlot[i*nsubint+j] - acfStructure->dynPlot[(i+1)*nsubint+j];   // add in noise here
+			}
+			else
+			{
+				acfStructure->dynPlot[i*nsubint+j] = acfStructure->dynPlot[i*nsubint+j] - acfStructure->dynPlot[(i-1)*nsubint+j];   // add in noise here
+			}
 		}
 	}
 
