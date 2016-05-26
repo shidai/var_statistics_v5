@@ -1,3 +1,4 @@
 mpicc -o detection detection.c T2toolkit.c -Wall -lm -lfftw3  
+gcc -o detection_filter detection_filter.c T2toolkit.c -Wall -lm -lfftw3  
 mpicc -o detection_t detection_t.c T2toolkit.c -Wall -lm -lfftw3  
 mpicc -o detection_matched detection_matched.c T2toolkit.c -Wall -lm -lfftw3  
