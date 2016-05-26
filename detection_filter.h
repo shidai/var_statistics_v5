@@ -115,6 +115,7 @@ int histogram (float *data, int n, float *x, float *val, float low, float up, in
 float find_max_value (int n, float *s);
 float find_min_value (int n, float *s);
 
+int subband_filter_noise (noiseStruct *noiseStructure);
 float calNoise (noiseStruct *noiseStructure, controlStruct *control);
 int simNoise (noiseStruct *noiseStructure, long seed);
 int calThreshold (noiseStruct *noiseStructure, float *var_n);
@@ -151,6 +152,7 @@ float calNoise (noiseStruct *noiseStructure, controlStruct *control)
 		seed = TKsetSeed();
 		simNoise (noiseStructure, seed);
 
+		subband_filter_noise (noiseStructure);
 		var_n[i] = variance (noiseStructure->noisePlot, nsubint*nchn);
 	}
 
@@ -580,6 +582,31 @@ int simNoise (noiseStruct *noiseStructure, long seed)
 		for (j = 0; j < nsubint; j++)
 		{
 			noiseStructure->noisePlot[i*nsubint+j] = (float)(noiseStructure->whiteLevel*TKgaussDev(&seed));   // create noise image pixels
+		}
+	}
+
+	return 0;
+}
+
+int subband_filter_noise (noiseStruct *noiseStructure)
+{
+	int nchn = noiseStructure->nchn;
+	int nsubint = noiseStructure->nsubint;
+
+	int i, j;
+
+	for (i = 0; i < nchn; i++)
+	{
+		for (j = 0; j < nsubint; j++)
+		{
+			if (i != nchn-1)
+			{
+				noiseStructure->noisePlot[i*nsubint+j] = noiseStructure->noisePlot[i*nsubint+j] - noiseStructure->noisePlot[(i+1)*nsubint+j];  
+			}
+			else
+			{
+				noiseStructure->noisePlot[i*nsubint+j] = noiseStructure->noisePlot[i*nsubint+j] - noiseStructure->noisePlot[(i-1)*nsubint+j];  
+			}
 		}
 	}
 
