@@ -254,10 +254,10 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 	//acfStructure->bw = control->chanBW*control->nchan; // MHz
 	//acfStructure->tint = control->nsub*control->tsub;  // s
 
-	acfStructure->t0 = control->scint_ts*pow(2.0,0.6); // s
-	acfStructure->f0 = control->scint_freqbw*2.0;  // MHz
-	//acfStructure->t0 = control->scint_ts; // s
-	//acfStructure->f0 = control->scint_freqbw;  // MHz
+	//acfStructure->t0 = control->scint_ts*pow(2.0,0.6); // s
+	//acfStructure->f0 = control->scint_freqbw*2.0;  // MHz
+	acfStructure->t0 = control->scint_ts; // s
+	acfStructure->f0 = control->scint_freqbw;  // MHz
 
 	acfStructure->winsize = control->winsize;
 
@@ -375,7 +375,8 @@ int calACF (acfStruct *acfStructure)
 		{
 			//acf[n] = exp(-pow((pow(acfStructure->s[j],2.5)+pow(acfStructure->f[i],1.5)),2.0/3.0));
 			//acf[n] = exp(-pow((pow(fabs(acfStructure->s[j]),2.5)+pow(fabs(acfStructure->f[i]),1.5)),2.0/3.0));
-			acf[n] = exp(-pow((pow(fabs(acfStructure->s[j]+2.0*rand*0.4*acfStructure->f[i]),2.5)+pow(fabs(acfStructure->f[i]),1.5)),2.0/3.0));
+			//acf[n] = exp(-pow((pow(fabs(acfStructure->s[j]+2.0*rand*0.4*acfStructure->f[i]),2.5)+pow(fabs(acfStructure->f[i]),1.5)),2.0/3.0));
+			acf[n] = exp(-pow((pow(fabs(acfStructure->s[j]*pow(0.5,0.6)+2.0*rand*0.4*acfStructure->f[i]),2.5)+pow(fabs(acfStructure->f[i]*0.5),1.5)),2.0/3.0));
 			n++;
 		}
 	}
