@@ -7,7 +7,6 @@
 //#include <gsl/gsl_rng.h>
 //#include <gsl/gsl_randist.h>
 #include "detection_t.h"
-#include <mpi.h>
 
 int main (int argc, char* argv[])
 {
