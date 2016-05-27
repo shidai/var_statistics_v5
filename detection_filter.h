@@ -248,7 +248,7 @@ int calculateScintScale (acfStruct *acfStructure, controlStruct *control)
 	//printf ("Starting simulating dynamic spectrum\n");
 	// moved to preAllocateMemory
 	acfStructure->n = control->n; 
-	acfStructure->whiteLevel = control->whiteLevel; // mJy
+	acfStructure->whiteLevel = sqrt(control->nchan_win*control->nsub)*control->whiteLevel; // mJy
 	acfStructure->cFreq = control->cFreq; // MHz
 
 	acfStructure->nchn = control->nchan;
@@ -682,9 +682,9 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 	int nsubint = acfStructure->nsubint;
 
 	double bw = acfStructure->bw;
-	double tint = acfStructure->tint;
+	//double tint = acfStructure->tint;
 	double f0 = acfStructure->f0;
-	double t0 = acfStructure->t0;
+	//double t0 = acfStructure->t0;
 
 	int i, ii;
 	int j;
@@ -708,7 +708,8 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 	rand22 = rand2 - floor(rand2);
 	//printf ("rand %lf\n",rand);
 
-	if (f0 >= (bw/nchn) && t0 == (tint/nsubint))
+	if (f0 >= (bw/nchn))
+	//if (f0 >= (bw/nchn) && t0 == (tint/nsubint))
 	{
 		//printf ("f0 < (bw/nchn) && t0 >= (tint/nsubint)\n");
 		nf0 = (int)(rand11*(nf-nchn));
@@ -725,6 +726,7 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 				}
 				dynSpecWindow = temp/tempf;
 				acfStructure->dynPlot[i*nsubint+j] = (float)(dynSpecWindow*acfStructure->cFlux);   // add in noise here
+				//acfStructure->dynPlot[i*nsubint+j] = (float)(dynSpecWindow*acfStructure->cFlux + acfStructure->whiteLevel*TKgaussDev(&seed));   // add in noise here
 			}
 			//printf ("%d\n", tempf);
 		}
