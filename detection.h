@@ -682,7 +682,7 @@ int winDynSpec (acfStruct *acfStructure, long seed)
 	rand22 = rand2 - floor(rand2);
 	//printf ("rand %lf\n",rand);
 
-	if (f0 >= (bw/nchn) && t0 == (tint/nsubint))
+	if (f0 >= (bw/nchn))
 	{
 		//printf ("f0 < (bw/nchn) && t0 >= (tint/nsubint)\n");
 		nf0 = (int)(rand11*(nf-nchn));
